@@ -79,11 +79,11 @@ public class FileTXT {
     }
 
     
-    public static String find(String prop, String value) {
+    public static String find(String text) {
         ArrayList<String> data = read();
         
         for (String row : data) {
-            if (row.contains(prop + ": " + value)) {
+            if (row.contains(text)) {
                 return row;
             }
         }

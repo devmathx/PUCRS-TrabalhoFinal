@@ -34,7 +34,8 @@ public class Input{
         return value;
     }
 
-    public static void clearBuffer(){
+    public static boolean clearBuffer(){
         in.nextLine();
+        return true;
     }
 }

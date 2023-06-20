@@ -98,6 +98,10 @@ public class Paciente {
         this.diagnostico = diagnostico;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     //========= MÉTODOS MÁGICOS ========== //
 
     public String toString() {

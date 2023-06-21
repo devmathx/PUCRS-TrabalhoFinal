@@ -13,7 +13,7 @@ public class Input{
         }
         catch(Error e){
             System.out.println("Erro na entrada de dados!");
-            value = -1;
+            return -1;
         }
 
         return value;

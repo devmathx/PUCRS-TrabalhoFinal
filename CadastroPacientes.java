@@ -18,6 +18,12 @@ public class CadastroPacientes {
     }
 
     public boolean CadastrarPaciente() {
+        if(indexPaciente == 10){
+            System.out.println("Você ja chegou ao limite de pacientes cadastrados!");
+            return false;
+        }
+        
+        
         String nome; // 0
         String cpf; // 1
         String telefone; // 2
@@ -64,6 +70,12 @@ public class CadastroPacientes {
                         i--;
                     }
                 }
+                else if(i == 1){
+                    if(findPaciente(values[i][1].trim()) != -1){
+                        System.out.println("\nJá existe um paciente com esse CPF cadastrado...Por favor, tente de novo!");
+                        i--;
+                    }
+                }
             }
 
             nome = values[0][1];
@@ -72,6 +84,7 @@ public class CadastroPacientes {
             consultas = Integer.parseInt(values[3][1]);
 
             addInArray(new Paciente(indexPaciente, nome, cpf, telefone, consultas, convenio, diagnostico));
+            System.out.println("Paciente cadastrado com sucesso!");
         } else {
             System.out.println("Você escolheu voltar\n");
             flagCadastro = false;
@@ -82,7 +95,7 @@ public class CadastroPacientes {
     }
 
     private int printMenu() {
-        int option;
+        String option;
 
         System.out.println("\n==== CADASTRO DE PACIENTE ====");
 
@@ -92,25 +105,21 @@ public class CadastroPacientes {
         System.out.print("\n(3) - Influenza");
         System.out.print("\n(4) - Meningite");
         System.out.print("\n(5) - Outro");
-        System.out.print("\n(6) - Voltar");
         System.out.print("\n==============================");
 
-        option = Input.lerInt("\n\nSua opção: >> ");
-        Input.clearBuffer();
+        option = Input.lerString("\n\nSua opção: >> ");
 
-        switch (option) {
+        switch (Integer.parseInt(option)) {
             case 1:
-                return option;
+                return 1;
             case 2:
-                return option;
+                return 2;
             case 3:
-                return option;
+                return 3;
             case 4:
-                return option;
+                return 4;
             case 5:
-                return option;
-            case 6:
-                return option;
+                return 5;
             default: {
                 System.out.println("Opção inválida! Informe novamente\n");
                 printMenu();
@@ -125,12 +134,12 @@ public class CadastroPacientes {
         indexPaciente++;
     }
 
-    public int findPaciente() {
-        String cpf = Input.lerString("Informe o CPF do paciente: ");
-
-        for (int i = 0; i < listaPacientes.length; i++) {
-            if (cpf.equalsIgnoreCase(listaPacientes[i].getCpf())) {
-                return i;
+    public int findPaciente(String cpf) {
+        if(indexPaciente > 0){
+            for (int i = 0; i < indexPaciente; i++) {
+                if (cpf.equalsIgnoreCase(listaPacientes[i].getCpf())) {
+                    return i;
+                }
             }
         }
 
@@ -140,19 +149,33 @@ public class CadastroPacientes {
     public void listPacientes() {
         System.out.println("\n===== LISTA DE PACIENTES =====");
 
-        for (int i = 0; i < indexPaciente; i++) {
-            System.out.println("(" + (i + 1) + ") - " + listaPacientes[i]);
+        if(indexPaciente > 0){
+            for (int i = 0; i < indexPaciente; i++) {
+                System.out.println("(" + (i + 1) + ") - " + listaPacientes[i]);
+            }
         }
+        else{
+            System.out.println("Ainda não existe nenhum paciente cadastrado!");
+        }
+       
     }
 
     public boolean selectPacienteRemove() {
+        if(indexPaciente == 0){
+            System.out.println("Ainda não existe nenhum paciente cadastrado!");
+            return false;
+        }
+        
         int removeIndex = -1;
 
         System.out.println("\nComo você deseja remover? ");
         System.out.println("(1) - Ver lista e escolher paciente");
         System.out.println("(2) - Remover por cpf");
 
-        switch (Input.lerInt("Sua opção: >> ")) {
+        String select = Input.lerString("Sua opção: >> ");
+        int selectInt = Integer.parseInt(select);
+       
+        switch (selectInt) {
             case 1: {
                 boolean flagFind = false;
                 this.listPacientes();
@@ -178,7 +201,8 @@ public class CadastroPacientes {
             }
 
             case 2: {
-                removeIndex = this.findPaciente();
+                String cpf = Input.lerString("Informe o CPF do paciente: ");
+                removeIndex = this.findPaciente(cpf);
                 if (removeIndex == -1) {
                     if(tryAgain("O CPF informado não está cadastrado!")){
                         selectPacienteRemove();
@@ -201,6 +225,7 @@ public class CadastroPacientes {
         }
 
         removePaciente(removeIndex);
+        System.out.println("Paciente removido da lista!");
         return true;
     }
 
@@ -249,18 +274,26 @@ public class CadastroPacientes {
 
 
     public void ordemAlfabetica(){
-        String[] nomes = new String[(indexPaciente)];
+
+        if(indexPaciente > 0){
+             String[] nomes = new String[(indexPaciente)];
         
-        for(int i = 0; i < nomes.length ; i++){
-            nomes[i] = listaPacientes[i].getNome();
+            for(int i = 0; i < nomes.length ; i++){
+                nomes[i] = listaPacientes[i].getNome();
+            }
+
+            System.out.println("\n==== LISTA DE PACIENTES EM ORDEM ALFABETICA ====");
+
+            Arrays.sort(nomes, String.CASE_INSENSITIVE_ORDER);
+            for (String nome : nomes) {
+                System.out.println(">> " + nome);
+            }
+        }
+        else{
+            System.out.println("Ainda não existe nenhum paciente cadastrado");
         }
 
-        System.out.println("==== LISTA DE PACIENTES EM ORDEM ALFABETICA ====");
-
-        Arrays.sort(nomes, String.CASE_INSENSITIVE_ORDER);
-        for (String nome : nomes) {
-            System.out.println(">> " + nome);
-        }
+       
     }
 
     public double mediaConsultas(){
@@ -278,17 +311,25 @@ public class CadastroPacientes {
     }
 
     public double[] procentagemPacientes(int diagnostico){
-        double valueOfDiagnostico[] = new double[indexPaciente];
-        valueOfDiagnostico[0] = 0;
+
+        if(indexPaciente == 0){
+            double err[] = {-1.0};
+            return err;
+        }
+
+        double valueOfDiagnostico[] = new double[indexPaciente +1];
+        valueOfDiagnostico[0] = 0.0;
         int indexArray = 1;
 
         for(int i = 0; i < indexPaciente ; i++){
             if(listaPacientes[i].getDiagnostico() == diagnostico){
-                valueOfDiagnostico[0]++;
-                valueOfDiagnostico[indexArray] = i;
+                valueOfDiagnostico[0] += 1.0;
+                valueOfDiagnostico[indexArray] = (i);
                 indexArray++;
             }
         }
+        
+
         valueOfDiagnostico[0] =  (100 * valueOfDiagnostico[0]) / indexPaciente;
 
         return valueOfDiagnostico;

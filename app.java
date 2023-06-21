@@ -23,27 +23,26 @@ public class App {
         System.out.println("(6) - Exibir porcentagem de pacientes por diagnóstico");
         System.out.println("(7) - Fechar programa");
 
-        int optionAtual = Input.lerInt("Sua Opção: >> ");
-        Input.clearBuffer();
+        String optionAtual = Input.lerString("Sua Opção: >> ");
 
         switch (optionAtual) {
-            case 1: {
+            case "1": {
                 cadastro1.CadastrarPaciente();
                 break;
             }
-            case 2: {
+            case "2": {
                 cadastro1.selectPacienteRemove();
                 break;
             }
-            case 3: {
+            case "3": {
                 cadastro1.listPacientes();
                 break;
             }
-            case 4: {
+            case "4": {
                 cadastro1.ordemAlfabetica();
                 break;
             }
-            case 5: {
+            case "5": {
                 double mediaConsultas = cadastro1.mediaConsultas();
                 if (mediaConsultas == -1) {
                     System.out.println("Nenhum paciente cadastrado");
@@ -52,23 +51,27 @@ public class App {
                 }
                 break;
             }
-            case 6: {
+            case "6": {
                 int diagnostico = selectDiagnostico();
                 if(diagnostico != -1){
                     double value[] = cadastro1.procentagemPacientes(diagnostico);
-                    
-                    System.out.println("A porcentagem de pacientes com o diagnóstico " + diagnostico + " é de: " +  value[0] + "%");
-                    System.out.println("Ids dos pacientes: ");
-                    for(int i = 1 ; i < value.length ; i++){
-                        System.out.println(value[i]);
+                    if(value[0] != -1.0){
+                        System.out.println("A porcentagem de pacientes com o diagnóstico " + diagnostico + " é de: " +  value[0] + "%");
+                        System.out.println("Ids dos pacientes: ");
+                        for(int i = 1 ; i < value.length ; i++){
+                            System.out.println((int)(value[i]));
+                        }
+                    }
+                    else{
+                        System.out.println("Ainda não há pacientes cadastrados!");
                     }
                 }
                 break;
             }
 
-            case 7: {
+            case "7": {
                 System.out.println("Programa encerrado");
-                break;
+                return false;
             }
             default: {
                 if(CadastroPacientes.tryAgain("Opção Inválida!")){
@@ -83,10 +86,8 @@ public class App {
         return true;
     }
 
-    public static int selectDiagnostico(){
-        int option;
-        String diagnostico;
-        System.out.println("==== ESCOLHA O DIAGNOSTICO ====");
+    public static int selectDiagnostico() {
+        String option;
 
         System.out.print("\nSelecione o diagnóstico");
         System.out.print("\n(1) - Covid");
@@ -96,19 +97,19 @@ public class App {
         System.out.print("\n(5) - Outro");
         System.out.print("\n==============================");
 
-        option = Input.lerInt("\n\nSua opção: >> ");
-        Input.clearBuffer();
-
-        if(option < 1 || option > 5){
+        option = Input.lerString("\n\nSua opção: >> ");
+        
+        if(Integer.parseInt(option) < 1 || Integer.parseInt(option) > 6){
             if(CadastroPacientes.tryAgain("Opção Inválida!")){
                 selectDiagnostico();
+                return 0;
             }
             else{
                 return -1;
             }
         }
         else{
-           return option;
+           return Integer.parseInt(option);
         }
     }
 }

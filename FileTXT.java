@@ -11,7 +11,6 @@ public class FileTXT {
 
     public FileTXT() { }
     
-
     private static String getDataPath() {
         File root = new File(System.getProperty("user.dir"));
         File path = new File(root, "database");
@@ -21,6 +20,15 @@ public class FileTXT {
         }
 
         File txt = new File(path, "data.txt");
+
+        if (!txt.exists()) {
+            try {
+                txt.createNewFile();
+            } catch (IOException error) {
+                error.printStackTrace();
+            }
+        }
+
         return txt.getAbsolutePath();
     }
 

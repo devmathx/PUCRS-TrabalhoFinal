@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.w3c.dom.Text;
-
 public class API {
     
     public API() {}
@@ -148,7 +146,7 @@ public class API {
 
     public static boolean reformatArray(Paciente[] newString){
         String concatContent = "";
-
+        
         for(int i = 0 ; i < newString.length ; i ++){
             if(newString[i] != null){
                 concatContent += newString[i].toString() + "\n";

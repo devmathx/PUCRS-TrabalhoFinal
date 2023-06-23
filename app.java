@@ -17,11 +17,11 @@ public class App {
     }
 
     public static boolean execApp(CadastroPacientes cadastro1) {
-        System.out.println("\n======================= MENU HOSPIAL =======================");
+        System.out.println("\n======================= MENU HOSPITAL =======================");
         System.out.println("(1) - Cadastrar Paciente");
         System.out.println("(2) - Remover Paciente");
         System.out.println("(3) - Exibir todos os pacientes");
-        System.out.println("(4) - Exibir nomes dos pacientes em ordem alfabetica");
+        System.out.println("(4) - Exibir nomes dos pacientes em ordem alfabética");
         System.out.println("(5) - Média de consultas por paciente");
         System.out.println("(6) - Exibir porcentagem de pacientes por diagnóstico");
         System.out.println("(7) - Fechar programa");

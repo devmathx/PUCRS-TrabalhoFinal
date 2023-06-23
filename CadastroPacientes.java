@@ -12,9 +12,20 @@ public class CadastroPacientes {
     // 4- Meningite
     // 5- Outro
 
-    public CadastroPacientes() {
+    public CadastroPacientes(Paciente[] dataPacientes) {
         listaPacientes = new Paciente[10];
-        indexPaciente = 0;
+
+        if(dataPacientes.length > 1){
+            for(int i = 0; i< dataPacientes.length; i ++){
+                if(dataPacientes[i] != null){
+                    listaPacientes[i] = dataPacientes[i];
+                    indexPaciente++;
+                }
+            }
+        }
+        else{
+              indexPaciente = 0;
+        }
     }
 
     public boolean CadastrarPaciente() {
@@ -109,16 +120,16 @@ public class CadastroPacientes {
 
         option = Input.lerString("\n\nSua opção: >> ");
 
-        switch (Integer.parseInt(option)) {
-            case 1:
+        switch (option) {
+            case "1":
                 return 1;
-            case 2:
+            case "2":
                 return 2;
-            case 3:
+            case "3":
                 return 3;
-            case 4:
+            case "4":
                 return 4;
-            case 5:
+            case "5":
                 return 5;
             default: {
                 System.out.println("Opção inválida! Informe novamente\n");
@@ -131,6 +142,8 @@ public class CadastroPacientes {
     // Posteriormente fazer método para o txt
     private void addInArray(Paciente paciente) {
         listaPacientes[indexPaciente] = paciente;
+        API.registerPaciente(listaPacientes[indexPaciente].toString());
+
         indexPaciente++;
     }
 
@@ -179,10 +192,11 @@ public class CadastroPacientes {
             case 1: {
                 boolean flagFind = false;
                 this.listPacientes();
-                int option = (Input.lerInt("Sua opção: >> ")) - 1;
+                String option = (Input.lerString("Sua opção: >> "));
+                int intOption = Integer.parseInt(option) -1;
 
                 for (int i = 0; i < indexPaciente; i++) {
-                    if (option == i) {
+                    if (intOption == i) {
                         flagFind = true;
                         removeIndex = i;
                         break;
@@ -245,6 +259,7 @@ public class CadastroPacientes {
     }
 
     private void removePaciente(int index) {
+        API.deletePaciente(listaPacientes[index].toString());
         listaPacientes[index] = null;
         reformatArray();
         indexPaciente--;
@@ -258,6 +273,7 @@ public class CadastroPacientes {
         for (int i = 0; i < temporaryPacientes.length; i++) {
             if (listaPacientes[i] != null) {
                 temporaryPacientes[indexTemporary] = listaPacientes[i];
+                temporaryPacientes[indexTemporary].setId(indexTemporary);
                 indexTemporary++;
             }
         }
@@ -265,11 +281,12 @@ public class CadastroPacientes {
         for (int i = 0; i < listaPacientes.length; i++) {
             if (temporaryPacientes[i] != null) {
                 listaPacientes[i] = temporaryPacientes[i];
-                listaPacientes[i].setId(i);
             } else {
                 listaPacientes[i] = null;
             }
         }
+
+        API.reformatArray(listaPacientes);
     }
 
 

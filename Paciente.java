@@ -106,7 +106,8 @@ public class Paciente {
 
     public String toString() {
         String text = "";
-        text += "nome: " + nome;
+        text += "id: " + id;
+        text += ", nome: " + nome;
         text += ", cpf: " + cpf;
         text += ", telefone: " + telefone;
         text += ", consultas: " + consultas;

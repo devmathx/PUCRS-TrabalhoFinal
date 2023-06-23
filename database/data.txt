@@ -1,0 +1,2 @@
+{ id: 0, nome: claudio, cpf: 234, telefone: 23423, consultas: 2, convenio: false, diagnostico: 2 }
+{ id: 1, nome: 312312, cpf: 2342342, telefone: 23423, consultas: 1, convenio: true, diagnostico: 4 }

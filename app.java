@@ -7,7 +7,10 @@ public class App {
         // System.out.println(i);
         // }
         
-        CadastroPacientes teste1 = new CadastroPacientes();
+        CadastroPacientes teste1 = new CadastroPacientes(API.selectPacientesForArray());
+       
+        
+        API.selectPacientesForArray();
         do{
           
         }while(execApp(teste1));

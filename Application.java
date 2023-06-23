@@ -1,4 +1,4 @@
-public class App {
+public class Application {
     public static void main(String[] args) {
 
         // String[] res = API.filterPacientes("nome", "João");
